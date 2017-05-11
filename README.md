@@ -1,2 +1,17 @@
-# angular2basic
-This is a simple Angular 2 application with a simple text output to browser with documentation of each step given in detail. Ref: www.tutorialspoint.com
+# angular2databinding
+
+$git clone https://github.com/nextbridge-vteams/angular2databinding.git
+
+$git cd angular2databinding
+
+$npm install
+
+or
+
+if you have permission issues use
+
+$sudo npm install
+
+to run app
+
+$npm start
