@@ -1,0 +1,321 @@
+Creating a Basic Angular 2 Application
+
+
+To setup development environment follow the below steps:
+
+Step 1:
+
+create a new folder for a new angular 2 application preferably in your home folder.
+
+$mkdir angular2-demo
+
+$cd angular2-demo
+
+Step 2:
+
+You need to create tsconfig.json which is the TypeScript compiler configuration file. It guides the compiler to generate JavaScript files.
+
+tsconfig.json
+
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false
+  },
+  "exclude": [
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
+  ]
+}
+
+Step 3:
+
+Create a typings.json file in your project folder angular2-demo as shown below:
+
+typings.json
+
+{
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160602141332",
+    "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
+    "node": "registry:dt/node#6.0.0+20160621231320"
+  }
+}
+
+
+
+
+
+
+A large number of libraries of the JavaScript extends JavaScript environment with features and syntax which is not natively recognized by the TypeScript compiler. The typings.json file is used to identify TypeScript definition files in your Angular application.
+
+In the above code, there are three typing files as shown below:
+
+core-js: It brings ES2015/ES6 capabilities to our ES5 browsers.
+
+jasmine: It is the typing for Jasmine test framework.
+
+node: It is used for the code that references objects in the nodejs environment.
+
+Step 4:
+
+Add package.json file to your angular2-demo project folder with the below code:
+
+package.json
+{
+  "name": "angular2-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "lite": "lite-server",
+    "typings": "typings",
+    "postinstall": "typings install"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "angular2": "2.0.0-beta.7",
+    "systemjs": "0.19.22",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.5.15"
+  },
+  "devDependencies": {
+    "concurrently": "^2.0.0",
+    "lite-server": "^2.1.0",
+    "typescript": "^1.7.5",
+    "typings":"^0.6.8"
+  }
+}
+
+The package.json will contain the packages that our apps require. These packages are installed and maintained with npm (Node Package Manager).
+
+Step 5:
+
+To install packages, run the below npm command in command prompt.
+
+$npm install
+
+>> Error messages in red may appear while installing npm, just ignore them.
+
+
+
+Creating Our First Angular Component
+
+A component is the fundamental concept of Angular. A component is a class that controls a view template - a part of a web page where information to the user is displayed and user feedback is responded. Components are required to build Angular apps.
+
+Step 6:
+
+Create a sub-folder called app/ inside your project folder to the place Angular app components. You can use the below command to create the folder:
+
+$mkdir app
+
+$cd app
+
+Step 7: 
+
+The files which you create need to be saved with .ts extension. Create a file called environment_app.component.ts in your app/ folder with the below code:
+
+environment_app.component.ts
+
+import {Component, View} from "angular2/core";
+
+@Component({
+   selector: 'my-app'
+})
+
+@View({
+  template: '<h2>My First Angular 2 App</h2>'
+})
+
+export class AppComponent {
+
+}
+
+The above code will import the Component and View package from angular2/core.
+The @Component is an Angular 2 decorator that allows you to associate metadata with the component class.
+
+The my-app can be used as HTML tag to injecting and can be used as a component.
+The @view contains a template that tells Angular how to render a view.
+
+The export specifies that, this component will be available outside the file.
+
+
+Step 8:
+
+Next, create environment_main.ts file with the below code:
+
+environment_main.ts
+
+import {bootstrap} from "angular2/platform/browser"
+import {AppComponent} from "./environment_app.component"
+
+bootstrap(AppComponent);
+
+
+
+
+Step 9:
+
+Now create a index.html in your project folder angular2-demo/ with the below code:
+
+index.html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/angular2-polyfills.js"></script>
+    <script src="https://code.angularjs.org/tools/system.js"></script>
+    <script src="https://code.angularjs.org/tools/typescript.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/Rx.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/angular2.dev.js"></script>
+    <script>
+      System.config({
+        transpiler: 'typescript',
+        typescriptOptions: { emitDecoratorMetadata: true },
+        packages: {'app': {defaultExtension: 'ts'}},
+        map: { 'app': 'app' }
+      });
+      System.import('app/environment_main')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+<body>
+   <my-app>Loading...</my-app>
+</body>
+</html>
+
+Angular will launch the app in the browser with our component and places it in a specific location on index.html.
+
+
+
+Compile and Run
+
+Step 10:
+
+To run the application, type the below command in a terminal window:
+
+$npm start
+
+The above command runs two parallel node processes as listed below:
+
+TypeScript compiler in the watch mode
+
+The lite-server (static server) loads the index.html in a browser and refreshes the browser as application files change.
+
+After few moments, a browser tab will get open with the output.
+
+
+
+Example
+
+The below example describes how to display a simple text in the Angular 2:
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.33.3/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/angular2-polyfills.js"></script>
+    <script src="https://code.angularjs.org/tools/system.js"></script>
+    <script src="https://code.angularjs.org/tools/typescript.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/Rx.js"></script>
+    <script src="https://code.angularjs.org/2.0.0-beta.6/angular2.dev.js"></script>
+    <script>
+      System.config({
+        transpiler: 'typescript',
+        typescriptOptions: { emitDecoratorMetadata: true },
+        packages: {'app': {defaultExtension: 'ts'}},
+        map: { 'app': 'app' }
+      });
+      System.import('app/hello_world_main')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+<body>
+   <my-app>Loading...</my-app>
+</body>
+</html>
+
+The above code includes the following configuration options:
+
+You can configure the index.html file using typescript version. The SystemJS transpile the TypeScript to JavaScript before running the application by using the transpiler option.
+
+If you do not transpile to JavaScript before running the application, you could see the compiler warnings and errors which are hidden in the browser.
+
+The TypeScript generates metadata for each and every class of the code when the emitDecoratorMetadata option is set. If you don't specify this option, large amount of unused metadata will be generated which affects the file size and impact on the application runtime.
+
+Angular 2 includes the packages form the app folder where files will have the .ts extension.
+
+Next it will load the main component file from the app folder. If there is no main component file found, then it will display the error in the console.
+
+When Angular calls the bootstrap function in main.ts, it reads the Component metadata, finds the 'app' selector, locates an element tag named app, and loads the application between those tags.
+
+To run the code, you need the following TypeScript(.ts) files which you need to save under the app folder.
+
+
+hello_world_main.ts
+
+import {bootstrap} from "angular2/platform/browser"
+import {MyHelloWorldClass} from "./hello_world_app.component"
+
+bootstrap(MyHelloWorldClass);
+
+Now we will create a component in TypeScript(.ts) file as shown below:
+
+hello_world_app.component.ts
+
+import {Component, View} from "angular2/core";
+
+@Component({
+   selector: 'my-app'
+})
+
+@View({
+  template: '<h2>Hello World !!</h2>'
+})
+
+export class MyHelloWorldClass {
+
+}
+
+
+The @Component is a decorator which uses configuration object to create the component.
+
+The selector creates an instance of the component where it finds <my-app> tag in parent HTML.
+
+The @view contains a template that tells Angular how to render a view.
+
+The export specifies that the component will be available outside the file.
+
+Output
+
+Let's carry out the following steps to see how above code works:
+
+Save above HTML code as index.html file as how we created in environment chapter and use the above app folder which contains .ts files.
+
+Open the terminal window and enter the below command:
+
+$npm start
+
+After few moments, a browser tab should open and displays the output as shown below.
+
+OR you can run this file in another way:
+
+Save above HTML code as angular2_hello_world.html file in your server root folder.
+
+Open this HTML file as http://localhost/angular2_hello_world.html and output as below gets displayed.
